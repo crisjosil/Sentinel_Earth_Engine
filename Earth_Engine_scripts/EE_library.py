@@ -17,6 +17,7 @@ import pandas as pd
 #import geopandas
 #import folium
 import matplotlib.dates as mdates
+import math
 
 
 def simplify(fc):
@@ -84,6 +85,34 @@ def get_S1_date(out):
     df['angle']=angle
     df.set_index('Dates', inplace=True)
     return(df)
+
+def set_plot_ylims(automatic_ax_lim,df,polarisation):
+#-------------------------- if user selects automatic axis, get the max y min for each polarisation as y limits in the plot ------------
+    a=df.filter(like=polarisation)
+    
+    if automatic_ax_lim=="Yes":                                 # user selection
+        bb=a.max()                                              # Max of VH
+        if math.isfinite(bb.max()) == True:                     # Check that is neither NaN nor inf
+            max_y_lim=bb.max()
+        else: 
+            max_y_lim=0 
+                                              # Default value in case is NaN or inf
+        dd=a.min()    
+        if math.isfinite(dd.min())==True:                       # Repeat for minimun y lim
+            min_y_lim=dd.min()
+        else: 
+            min_y_lim=-30  
+    else:
+        if polarisation == "VH":
+            max_y_lim=-13
+            min_y_lim=-29
+        elif polarisation == "VV":
+            max_y_lim=-9
+            min_y_lim=-15
+        elif polarisation == "Ratio":
+            max_y_lim=-2.5
+            min_y_lim=-13
+    return(min_y_lim,max_y_lim)    
     
 def Time_series_of_a_point(Img_collection,point,title):
     l = Img_collection.filterBounds(point).getRegion(point, 30).getInfo()
@@ -98,7 +127,7 @@ def Time_series_of_a_point(Img_collection,point,title):
     ax.legend()
     ax1.legend()
     ax2.legend()
-    ax.set_ylim(-28.5,-13)
+    ax.set_ylim(-29,-13)
     ax1.set_ylim(-15,-9)
     ax2.set_ylim(-13,-2.5)
     ejes = fig.axes #which is used to extract the axes
@@ -111,7 +140,7 @@ def Time_series_of_a_point(Img_collection,point,title):
     
     return(df)
     
-def Time_series_of_a_region(Img_collection,geometry,stats,title):
+def Time_series_of_a_region(Img_collection,geometry,stats,title,automatic_ax_lim):
     if stats == 'mean':
         fun = ee.Reducer.mean()
     elif stats == 'median':
@@ -144,9 +173,18 @@ def Time_series_of_a_region(Img_collection,geometry,stats,title):
     ax.legend()
     ax1.legend()
     ax2.legend()
-    ax.set_ylim(-28.5,-13)
-    ax1.set_ylim(-15,-9)
-    ax2.set_ylim(-13,-2.5)
+
+    #-------------------------- if user selects automatic axis, get the max y min for each polarisation as y limits in the plot ------------
+    polarisation="VH"
+    min_y_lim,max_y_lim=set_plot_ylims(automatic_ax_lim,df,polarisation)
+    ax.set(ylim=(min_y_lim, max_y_lim))                                  
+    polarisation="VV"
+    min_y_lim,max_y_lim=set_plot_ylims(automatic_ax_lim,df,polarisation)
+    ax1.set(ylim=(min_y_lim, max_y_lim))
+    polarisation="Ratio"
+    min_y_lim,max_y_lim=set_plot_ylims(automatic_ax_lim,df,polarisation)
+    ax2.set(ylim=(min_y_lim, max_y_lim))
+
     ejes = fig.axes #which is used to extract the axes
     # For every axis, set the x and y major locator
     for axi in ejes:
@@ -157,7 +195,7 @@ def Time_series_of_a_region(Img_collection,geometry,stats,title):
     
     return(df)    
     
-def time_series_from_shp(Img_collection,geo_df_IDMT,ID_MT,stats,save_ts,out_path):
+def time_series_from_shp(Img_collection,geo_df_IDMT,ID_MT,stats,save_ts,out_path,automatic_ax_lim):
     df1=pd.DataFrame()
     for k in range(geo_df_IDMT.shape[0]):
         x, y = geo_df_IDMT['geometry'][geo_df_IDMT.index[k]].exterior.coords.xy
@@ -233,14 +271,54 @@ def time_series_from_shp(Img_collection,geo_df_IDMT,ID_MT,stats,save_ts,out_path
     b.mean(axis=1).plot(ax=ax1, marker='s',figsize=(19, 9), markersize=5, linestyle='-', linewidth=3,color="black",label=ID_MT+"Avg")
     c.plot(ax=ax2,marker='*',                  markersize=4, linestyle='--', linewidth=1,color=["blue","red","green","black","magenta","yellow","orange","brown","pink"] )
     c.mean(axis=1).plot(ax=ax2,marker='s',figsize=(19, 9), markersize=5, linestyle='-', linewidth=3,color="black",label=ID_MT+"Avg")#               
-    
+
     ax.set_ylabel('VH (dB)')
     ax1.set_ylabel('VV (dB)')
     ax2.set_ylabel('VH-VV')
-    ax.set(ylim=(-28, -12))
-    ax1.set(ylim=(-20, -7))
-    ax2.set(ylim=(-15, -2))
+    
+#-------------------------- if user selects automatic axis, get the max y min for each polarisation as y limits in the plot ------------
+    if automatic_ax_lim=="Yes":                                 # user selection
+        bb=a.max()                                              # Max of VH
+        if math.isfinite(bb.max()) == True:                     # Check that is neither NaN nor inf
+            cc=bb.max()
+        else: 
+            cc=-5                                               # Default value in case is NaN or inf
+        dd=a.min()    
+        if math.isfinite(dd.min())==True:                       # Repeat for minimun y lim
+            eee=dd.min()
+        else: 
+            eee=-30  
         
+        ax.set(ylim=(eee, cc))                                  
+        
+        bb=b.max()                                              # Repeat for VH channel
+        if math.isfinite(bb.max()) == True:
+            cc=bb.max()
+        else: 
+            cc=-6
+        dd=b.min()    
+        if math.isfinite(dd.min())==True:
+            eee=dd.min()
+        else: 
+            eee=-20          
+
+        ax1.set(ylim=(eee, cc))
+        
+        bb=c.max()
+        if math.isfinite(bb.max()) == True:
+            cc=bb.max()
+        else: 
+            cc=0
+        dd=b.min()    
+        if math.isfinite(dd.min())==True:
+            eee=dd.min()
+        else: 
+            eee=-17
+        ax2.set(ylim=(eee, cc))
+    else:
+        ax.set_ylim(-29,-13)
+        ax1.set_ylim(-15,-9)
+        ax2.set_ylim(-13,-2.5)        
     ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
     ax1.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
     ax2.legend(loc='center left', bbox_to_anchor=(1.0, 0.5)) 
