@@ -127,9 +127,9 @@ def Time_series_of_a_point(Img_collection,point,title):
     ax.legend()
     ax1.legend()
     ax2.legend()
-    ax.set_ylim(-29,-13)
-    ax1.set_ylim(-15,-9)
-    ax2.set_ylim(-13,-2.5)
+    ax.set_ylim(-29,-2)
+    ax1.set_ylim(-15,-2)
+    ax2.set_ylim(-13,-2)
     ejes = fig.axes #which is used to extract the axes
     # For every axis, set the x and y major locator
     for axi in ejes:
@@ -196,6 +196,8 @@ def Time_series_of_a_region(Img_collection,geometry,stats,title,automatic_ax_lim
     return(df)    
     
 def time_series_from_shp(Img_collection,geo_df_IDMT,ID_MT,stats,save_ts,out_path,automatic_ax_lim):
+    # Fancy plot style
+    plt.style.use('ggplot')
     df1=pd.DataFrame()
     for k in range(geo_df_IDMT.shape[0]):
         x, y = geo_df_IDMT['geometry'][geo_df_IDMT.index[k]].exterior.coords.xy
@@ -317,7 +319,7 @@ def time_series_from_shp(Img_collection,geo_df_IDMT,ID_MT,stats,save_ts,out_path
         ax2.set(ylim=(eee, cc))
     else:
         ax.set_ylim(-29,-13)
-        ax1.set_ylim(-15,-9)
+        ax1.set_ylim(-17,-10)
         ax2.set_ylim(-13,-2.5)        
     ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
     ax1.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
