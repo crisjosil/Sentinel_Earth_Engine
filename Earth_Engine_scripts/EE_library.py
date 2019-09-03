@@ -120,23 +120,23 @@ def Time_series_of_a_point(Img_collection,point,title):
     df=get_S1_date(out)
     df=df.sort_index(axis = 0)
     
-    fig, (ax, ax1,ax2) = plt.subplots(3, 1, sharex=True,figsize=(19,9)) 
-    ax.plot(df['VH'],marker='o', markersize=4, linestyle='--', linewidth=1,color="blue",label='VH '+title)
-    ax1.plot(df['VV'],marker='o', markersize=4, linestyle='--', linewidth=1,color="red",label='VV '+title)
-    ax2.plot((df['VH']-df['VV']),marker='o', markersize=4, linestyle='--', linewidth=1,color="green",label='Ratio '+title)
-    ax.legend()
-    ax1.legend()
-    ax2.legend()
-    ax.set_ylim(-29,-2)
-    ax1.set_ylim(-15,-2)
-    ax2.set_ylim(-13,-2)
-    ejes = fig.axes #which is used to extract the axes
-    # For every axis, set the x and y major locator
-    for axi in ejes:
-        axi.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=1, interval=2, tz=None))
-    plt.setp(ax2.get_xticklabels(), rotation=30, horizontalalignment='right',)
-    ax2.tick_params(axis='x', which='major', labelsize=9)
-    plt.tight_layout()
+#    fig, (ax, ax1,ax2) = plt.subplots(3, 1, sharex=True,figsize=(19,9)) 
+#    ax.plot(df['VH'],marker='o', markersize=4, linestyle='--', linewidth=1,color="blue",label='VH '+title)
+#    ax1.plot(df['VV'],marker='o', markersize=4, linestyle='--', linewidth=1,color="red",label='VV '+title)
+#    ax2.plot((df['VH']-df['VV']),marker='o', markersize=4, linestyle='--', linewidth=1,color="green",label='Ratio '+title)
+#    ax.legend()
+#    ax1.legend()
+#    ax2.legend()
+#    ax.set_ylim(-29,-2)
+#    ax1.set_ylim(-15,-2)
+#    ax2.set_ylim(-13,-2)
+#    ejes = fig.axes #which is used to extract the axes
+#    # For every axis, set the x and y major locator
+#    for axi in ejes:
+#        axi.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=1, interval=2, tz=None))
+#    plt.setp(ax2.get_xticklabels(), rotation=30, horizontalalignment='right',)
+#    ax2.tick_params(axis='x', which='major', labelsize=9)
+#    plt.tight_layout()
     
     return(df)
     
@@ -166,32 +166,32 @@ def Time_series_of_a_region(Img_collection,geometry,stats,title,automatic_ax_lim
     df=get_S1_date(out)
     df=df.sort_index(axis = 0)
     
-    fig, (ax, ax1,ax2) = plt.subplots(3, 1, sharex=True,figsize=(19,9)) 
-    ax.plot(df['VH'],marker='o', markersize=4, linestyle='--', linewidth=1,color="blue",label='VH '+title)
-    ax1.plot(df['VV'],marker='o', markersize=4, linestyle='--', linewidth=1,color="red",label='VV '+title)
-    ax2.plot((df['VH']-df['VV']),marker='o', markersize=4, linestyle='--', linewidth=1,color="green",label='Ratio '+title)
-    ax.legend()
-    ax1.legend()
-    ax2.legend()
-
-    #-------------------------- if user selects automatic axis, get the max y min for each polarisation as y limits in the plot ------------
-    polarisation="VH"
-    min_y_lim,max_y_lim=set_plot_ylims(automatic_ax_lim,df,polarisation)
-    ax.set(ylim=(min_y_lim, max_y_lim))                                  
-    polarisation="VV"
-    min_y_lim,max_y_lim=set_plot_ylims(automatic_ax_lim,df,polarisation)
-    ax1.set(ylim=(min_y_lim, max_y_lim))
-    polarisation="Ratio"
-    min_y_lim,max_y_lim=set_plot_ylims(automatic_ax_lim,df,polarisation)
-    ax2.set(ylim=(min_y_lim, max_y_lim))
-
-    ejes = fig.axes #which is used to extract the axes
-    # For every axis, set the x and y major locator
-    for axi in ejes:
-        axi.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=1, interval=2, tz=None))
-    plt.setp(ax2.get_xticklabels(), rotation=30, horizontalalignment='right',)
-    ax2.tick_params(axis='x', which='major', labelsize=9)
-    plt.tight_layout()
+#    fig, (ax, ax1,ax2) = plt.subplots(3, 1, sharex=True,figsize=(19,9)) 
+#    ax.plot(df['VH'],marker='o', markersize=4, linestyle='--', linewidth=1,color="blue",label='VH '+title)
+#    ax1.plot(df['VV'],marker='o', markersize=4, linestyle='--', linewidth=1,color="red",label='VV '+title)
+#    ax2.plot((df['VH']-df['VV']),marker='o', markersize=4, linestyle='--', linewidth=1,color="green",label='Ratio '+title)
+#    ax.legend()
+#    ax1.legend()
+#    ax2.legend()
+#
+#    #-------------------------- if user selects automatic axis, get the max y min for each polarisation as y limits in the plot ------------
+#    polarisation="VH"
+#    min_y_lim,max_y_lim=set_plot_ylims(automatic_ax_lim,df,polarisation)
+#    ax.set(ylim=(min_y_lim, max_y_lim))                                  
+#    polarisation="VV"
+#    min_y_lim,max_y_lim=set_plot_ylims(automatic_ax_lim,df,polarisation)
+#    ax1.set(ylim=(min_y_lim, max_y_lim))
+#    polarisation="Ratio"
+#    min_y_lim,max_y_lim=set_plot_ylims(automatic_ax_lim,df,polarisation)
+#    ax2.set(ylim=(min_y_lim, max_y_lim))
+#
+#    ejes = fig.axes #which is used to extract the axes
+#    # For every axis, set the x and y major locator
+#    for axi in ejes:
+#        axi.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=1, interval=2, tz=None))
+#    plt.setp(ax2.get_xticklabels(), rotation=30, horizontalalignment='right',)
+#    ax2.tick_params(axis='x', which='major', labelsize=9)
+#    plt.tight_layout()
     
     return(df)    
     
@@ -265,80 +265,80 @@ def time_series_from_shp(Img_collection,geo_df_IDMT,ID_MT,stats,save_ts,out_path
     a=df1.filter(like="VH")
     b=df1.filter(like="VV")
     c=df1.filter(like="Ratio")
-    fig, (ax, ax1, ax2) = plt.subplots(3, 1, sharex=True,figsize=(19,9))                        
-    # Plot three dataframes in the same chart, assigning the same colors to the columns
-    a.plot(ax=ax,  marker='o', figsize=(19, 9), markersize=4, linestyle='--', linewidth=1,color=["blue","red","green","black","magenta","yellow","orange","brown","pink"] )
-    a.mean(axis=1).plot(ax=ax, marker='s',figsize=(19, 9), markersize=5, linestyle='-', linewidth=3,color="black",label=ID_MT+"Avg")
-    b.plot(ax=ax1,marker='s',                  markersize=4, linestyle='--', linewidth=1,color=["blue","red","green","black","magenta","yellow","orange","brown","pink"] )
-    b.mean(axis=1).plot(ax=ax1, marker='s',figsize=(19, 9), markersize=5, linestyle='-', linewidth=3,color="black",label=ID_MT+"Avg")
-    c.plot(ax=ax2,marker='*',                  markersize=4, linestyle='--', linewidth=1,color=["blue","red","green","black","magenta","yellow","orange","brown","pink"] )
-    c.mean(axis=1).plot(ax=ax2,marker='s',figsize=(19, 9), markersize=5, linestyle='-', linewidth=3,color="black",label=ID_MT+"Avg")#               
-
-    ax.set_ylabel('VH (dB)')
-    ax1.set_ylabel('VV (dB)')
-    ax2.set_ylabel('VH-VV')
-    
-#-------------------------- if user selects automatic axis, get the max y min for each polarisation as y limits in the plot ------------
-    if automatic_ax_lim=="Yes":                                 # user selection
-        bb=a.max()                                              # Max of VH
-        if math.isfinite(bb.max()) == True:                     # Check that is neither NaN nor inf
-            cc=bb.max()
-        else: 
-            cc=-5                                               # Default value in case is NaN or inf
-        dd=a.min()    
-        if math.isfinite(dd.min())==True:                       # Repeat for minimun y lim
-            eee=dd.min()
-        else: 
-            eee=-30  
-        
-        ax.set(ylim=(eee, cc))                                  
-        
-        bb=b.max()                                              # Repeat for VH channel
-        if math.isfinite(bb.max()) == True:
-            cc=bb.max()
-        else: 
-            cc=-6
-        dd=b.min()    
-        if math.isfinite(dd.min())==True:
-            eee=dd.min()
-        else: 
-            eee=-20          
-
-        ax1.set(ylim=(eee, cc))
-        
-        bb=c.max()
-        if math.isfinite(bb.max()) == True:
-            cc=bb.max()
-        else: 
-            cc=0
-        dd=b.min()    
-        if math.isfinite(dd.min())==True:
-            eee=dd.min()
-        else: 
-            eee=-17
-        ax2.set(ylim=(eee, cc))
-    else:
-        ax.set_ylim(-29,-13)
-        ax1.set_ylim(-17,-10)
-        ax2.set_ylim(-13,-2.5)        
-    ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
-    ax1.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
-    ax2.legend(loc='center left', bbox_to_anchor=(1.0, 0.5)) 
-    
-    ejes = fig.axes #which is used to extract the axes
-    # For every axis, set the x and y major locator
-    for axi in ejes:
-        axi.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=1, interval=2, tz=None))
-    plt.setp(ax2.get_xticklabels(), rotation=30, horizontalalignment='right',)
-    ax2.tick_params(axis='x', which='major', labelsize=9)
-     
-    plt.suptitle(ID_MT,size=16)
-    plt.tight_layout()
-    fig.subplots_adjust(top=0.95)
-    
-    if save_ts =="Yes":
-        print("saving "+ID_MT)
-        Name=ID_MT
-        plt.savefig((out_path+Name),bbox_inches='tight')
+#    fig, (ax, ax1, ax2) = plt.subplots(3, 1, sharex=True,figsize=(19,9))                        
+#    # Plot three dataframes in the same chart, assigning the same colors to the columns
+#    a.plot(ax=ax,  marker='o', figsize=(19, 9), markersize=4, linestyle='--', linewidth=1,color=["blue","red","green","black","magenta","yellow","orange","brown","pink"] )
+#    a.mean(axis=1).plot(ax=ax, marker='s',figsize=(19, 9), markersize=5, linestyle='-', linewidth=3,color="black",label=ID_MT+"Avg")
+#    b.plot(ax=ax1,marker='s',                  markersize=4, linestyle='--', linewidth=1,color=["blue","red","green","black","magenta","yellow","orange","brown","pink"] )
+#    b.mean(axis=1).plot(ax=ax1, marker='s',figsize=(19, 9), markersize=5, linestyle='-', linewidth=3,color="black",label=ID_MT+"Avg")
+#    c.plot(ax=ax2,marker='*',                  markersize=4, linestyle='--', linewidth=1,color=["blue","red","green","black","magenta","yellow","orange","brown","pink"] )
+#    c.mean(axis=1).plot(ax=ax2,marker='s',figsize=(19, 9), markersize=5, linestyle='-', linewidth=3,color="black",label=ID_MT+"Avg")#               
+#
+#    ax.set_ylabel('VH (dB)')
+#    ax1.set_ylabel('VV (dB)')
+#    ax2.set_ylabel('VH-VV')
+#    
+##-------------------------- if user selects automatic axis, get the max y min for each polarisation as y limits in the plot ------------
+#    if automatic_ax_lim=="Yes":                                 # user selection
+#        bb=a.max()                                              # Max of VH
+#        if math.isfinite(bb.max()) == True:                     # Check that is neither NaN nor inf
+#            cc=bb.max()
+#        else: 
+#            cc=-5                                               # Default value in case is NaN or inf
+#        dd=a.min()    
+#        if math.isfinite(dd.min())==True:                       # Repeat for minimun y lim
+#            eee=dd.min()
+#        else: 
+#            eee=-30  
+#        
+#        ax.set(ylim=(eee, cc))                                  
+#        
+#        bb=b.max()                                              # Repeat for VH channel
+#        if math.isfinite(bb.max()) == True:
+#            cc=bb.max()
+#        else: 
+#            cc=-6
+#        dd=b.min()    
+#        if math.isfinite(dd.min())==True:
+#            eee=dd.min()
+#        else: 
+#            eee=-20          
+#
+#        ax1.set(ylim=(eee, cc))
+#        
+#        bb=c.max()
+#        if math.isfinite(bb.max()) == True:
+#            cc=bb.max()
+#        else: 
+#            cc=0
+#        dd=b.min()    
+#        if math.isfinite(dd.min())==True:
+#            eee=dd.min()
+#        else: 
+#            eee=-17
+#        ax2.set(ylim=(eee, cc))
+#    else:
+#        ax.set_ylim(-29,-13)
+#        ax1.set_ylim(-17,-10)
+#        ax2.set_ylim(-13,-2.5)        
+#    ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+#    ax1.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+#    ax2.legend(loc='center left', bbox_to_anchor=(1.0, 0.5)) 
+#    
+#    ejes = fig.axes #which is used to extract the axes
+#    # For every axis, set the x and y major locator
+#    for axi in ejes:
+#        axi.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=1, interval=2, tz=None))
+#    plt.setp(ax2.get_xticklabels(), rotation=30, horizontalalignment='right',)
+#    ax2.tick_params(axis='x', which='major', labelsize=9)
+#     
+#    plt.suptitle(ID_MT,size=16)
+#    plt.tight_layout()
+#    fig.subplots_adjust(top=0.95)
+#    
+#    if save_ts =="Yes":
+#        print("saving "+ID_MT)
+#        Name=ID_MT
+#        plt.savefig((out_path+Name),bbox_inches='tight')
         
     return(df1)
